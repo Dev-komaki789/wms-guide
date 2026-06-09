@@ -1,134 +1,174 @@
 import type { OrmChapter } from './types'
 
-// 第1章「基礎」。ORM の考え方・Model.objects・QuerySet の遅延評価とキャッシュ。
+// 第1章「基礎」。プログラミング初心者向け。
+// データベースの超基本 → ORM とは → Model.objects → QuerySet の遅延評価・チェーン・キャッシュ。
 export const ch01Basics: OrmChapter = {
   id: 'basics',
   num: 1,
   title: '基礎 ― ORM と QuerySet のしくみ',
-  summary: 'ORM とは何か、Model.objects とは、そして QuerySet が「いつ」DB に問い合わせるか（遅延評価）を理解する。',
+  summary: 'データベースの超基本からスタートして、ORM とは何か、そして「書いた ORM がいつ DB に問い合わせるのか」までを、はじめての人向けにやさしく説明します。',
   intro: [
-    'ORM（Object-Relational Mapping）は、SQL を直接書く代わりに Python のコードでデータベースを操作するしくみです。Django では、書いた ORM を Django が裏で SQL に翻訳して実行します。',
-    'この章では、すべての ORM の土台になる3つのこと ―「Model.objects（窓口）」「QuerySet（クエリの設計図）」「遅延評価（いつ DB に行くか）」― を押さえます。ここが分かると、後の章の filter や集計が「設計図に条件を足していく操作」として読めるようになります。',
+    'この本は「Django の ORM（オーアールエム）の書き方」を、はじめての人にも分かるようにまとめたものです。むずかしい言葉は出てくるたびにかみくだいて説明するので、SQL（エスキューエル）をまだよく知らなくても大丈夫です。',
+    'まずこの章で、すべての土台になる考え方をつかみましょう。あせらず、上から順に読んでいけば大丈夫です。',
   ],
   sections: [
     {
-      id: 'what-is-orm',
-      heading: '1-1. ORM とは ― SQL を書かずに DB を扱う',
+      id: 'warmup',
+      heading: '1-1. 準備運動 ― そもそもデータベースって？',
       body: [
-        'たとえば「在庫が 0 の行を新しい順に取りたい」とき、SQL では SELECT ... FROM ... WHERE ... ORDER BY ... と文を組み立てます。ORM では、同じことを Python のメソッドを繋いで表現します。',
-        'ORM の良いところは、(1) Python の文法のまま書けて読みやすい、(2) テーブルやカラムを「モデル（クラス）」として扱えるので補完や型チェックが効く、(3) DB の種類（PostgreSQL / SQLite など）が違っても同じコードで動く、という点です。',
+        'データベース（DB）は、ざっくり言うと「きちんと整理された Excel の表の集まり」です。倉庫システム（WMS）なら、「在庫の表」「ピッキングリストの表」「商品の表」…というように、用途ごとに表が分かれています。',
+        'ひとつの表を、もう少しだけ正確な言葉にすると次のようになります。これだけ覚えれば、この本はぜんぶ読めます。',
+      ],
+      table: {
+        headers: ['ふだんの言い方', '専門用語', '意味'],
+        rows: [
+          ['表', 'テーブル（table）', '1種類のデータの集まり（例: 在庫の表）'],
+          ['横1列ぶんのデータ', '行 / レコード（row）', '1件ぶんのデータ（例: ある棚のある商品の在庫1件）'],
+          ['縦の項目', 'カラム / 列（column）', '項目名（例: 在庫数、SKU、更新日時）'],
+          ['表を操作する命令', 'SQL', 'DB に「これ取って」「これ更新して」とお願いする専用の言葉'],
+        ],
+      },
+      callouts: [
+        {
+          kind: 'note',
+          text: 'ことば：SQL（エスキューエル）は DB 専用の命令文です。たとえば「在庫の表から全部ちょうだい」は SQL で SELECT * FROM stock_balances; と書きます。SELECT は「取ってくる」という意味の命令です。',
+        },
+      ],
+    },
+    {
+      id: 'what-is-orm',
+      heading: '1-2. ORM とは ― SQL を書かずに DB を扱う道具',
+      body: [
+        'ふつう、DB に「これ取って」とお願いするには SQL を書きます。でも、プログラム（Python）の中で毎回 SQL の文章を組み立てるのは、けっこう面倒です。',
+        'そこで登場するのが ORM です。ORM を使うと、SQL を直接書かずに、Python のいつもの書き方で DB を操作できます。書いた ORM は Django が裏でこっそり SQL に翻訳して実行してくれます。つまり ORM は「Python と SQL のあいだの通訳さん」です。',
+        '下の例を見てください。左（ORM）と右（SQL）はまったく同じ意味です。ORM のほうが Python らしく読めますね。',
       ],
       examples: [
         {
           orm: `StockBalance.objects\n  .filter(quantity=0)\n  .order_by('-updated_at')`,
           sql: `SELECT *\nFROM stock_balances\nWHERE quantity = 0\nORDER BY updated_at DESC;`,
-          note: '同じ意味を、左は Python のメソッドチェーンで、右は SQL で表したもの。Django が左を右に翻訳して実行します。',
+          note: '意味はどちらも「在庫数が 0 の行を、更新日時の新しい順に取ってくる」。filter が WHERE（絞り込み）に、order_by が ORDER BY（並べ替え）に翻訳されています。',
         },
       ],
       callouts: [
         {
           kind: 'note',
-          text: 'ORM は万能ではありません。非常に複雑な集計などは生 SQL の方が素直なこともあります。まずは ORM で書き、必要なときだけ SQL に降りる、というのが実務の感覚です。',
+          text: 'ことば：WHERE（ウェア）は「〜という条件のものだけ」と絞り込む命令、ORDER BY（オーダーバイ）は「〜の順に並べる」命令です。先頭に「-」が付くと「大きい順／新しい順（降順）」になります。',
         },
       ],
     },
     {
       id: 'model-objects',
-      heading: '1-2. Model.objects ― テーブルの「窓口」',
+      heading: '1-3. Model.objects ― テーブルの「受付窓口」',
       body: [
-        'すべての ORM は Model.objects から始まります。これはそのモデル（＝テーブル）専用の「窓口」で、正式には Manager（マネージャ）と呼びます。',
-        'たとえば PickingList モデルなら PickingList.objects が picking_lists テーブルの窓口です。この窓口に .all() や .filter(...) を頼むと、その結果（QuerySet）が返ってきます。',
+        'ORM はかならず Model.objects（モデル・オブジェクツ）から書きはじめます。これは、そのテーブル専用の「受付窓口」だと思ってください。',
+        'たとえば PickingList というモデル（＝ピッキングリストの表）なら、PickingList.objects がその表の窓口です。窓口に「.all()（全部ください）」や「.filter(...)（条件つきでください）」とお願いすると、結果が返ってきます。',
       ],
       examples: [
         {
           orm: `PickingList.objects.all()`,
           sql: `SELECT * FROM picking_lists;`,
-          note: '「PickingList 表の窓口（objects）に、全部ください（all）と頼む」と読みます。',
+          note: '「PickingList の窓口（objects）に、全部ください（all）とお願いする」と読みます。',
         },
         {
           orm: `PickingList.objects.filter(status='in_progress')`,
           sql: `SELECT *\nFROM picking_lists\nWHERE status = 'in_progress';`,
-          note: '窓口に「作業中のものだけ」と条件をつけて頼む形。',
+          note: '「作業中（status が in_progress）のものだけください」とお願いする形。filter のカッコの中が条件です。',
         },
       ],
       callouts: [
         {
           kind: 'tip',
-          text: 'モデル名は単数・パスカルケース（PickingList）、テーブル名は複数・スネークケース（picking_lists）になることが多いです。どのモデルがどのテーブルかは「画面から探す」の使用テーブル一覧でも確認できます。',
+          text: 'モデルの名前は単数で大文字はじまり（PickingList）、テーブルの名前は複数で小文字＋アンダーバー（picking_lists）になることが多いです。どのモデルがどのテーブルかは、トップの「画面から探す」の使用テーブル一覧でも見られます。',
         },
       ],
     },
     {
       id: 'queryset',
-      heading: '1-3. QuerySet ― 「クエリの設計図」であって、データそのものではない',
+      heading: '1-4. QuerySet ― 「取ってきたデータ」ではなく「注文票」',
       body: [
-        '.all() や .filter() が返すのは QuerySet というオブジェクトです。ここが ORM 最大のポイントですが、QuerySet は「取得済みのデータ」ではなく「どんなクエリを実行するかの設計図」です。',
-        'だから .filter() を書いただけでは、まだ DB には一切問い合わせていません。設計図を組み立てているだけです。実際に DB に SQL が飛ぶのは、その結果を「使おうとした瞬間」です（次の節）。',
+        '.all() や .filter() が返してくるものを QuerySet（クエリセット）と呼びます。ここが最初のつまずきポイントなのですが、QuerySet は「すでに取ってきたデータ」ではありません。',
+        'QuerySet は「どんなデータが欲しいかを書いた注文票（＝まだ厨房に出していない注文）」のようなものです。だから .filter() を書いた時点では、DB にはまだ一度も問い合わせていません。注文票を書き足しているだけなのです。',
+        'では実際に DB に問い合わせ（注文を厨房に出す）のはいつか？ それは「中身を使おうとした瞬間」です。次の節で見ていきましょう。',
       ],
       examples: [
         {
-          orm: `# この3行ではまだ SQL は実行されない（設計図を組み立てているだけ）\nqs = PickingList.objects.filter(status='in_progress')\nqs = qs.filter(warehouse_id=1)\nqs = qs.order_by('-started_at')`,
-          note: '条件を足すたびに「新しい設計図」が返るだけ。DB アクセスは 0 回。',
+          orm: `# この3行では、DB にはまだ1回も問い合わせていない（注文票を書いているだけ）\nqs = PickingList.objects.filter(status='in_progress')\nqs = qs.filter(warehouse_id=1)\nqs = qs.order_by('-started_at')`,
+          note: '条件を足すたびに新しい注文票ができるだけ。DB アクセスはここまで 0 回です。',
+        },
+      ],
+      callouts: [
+        {
+          kind: 'note',
+          text: 'ことば：QuerySet（クエリセット）の「クエリ（query）」は「問い合わせ」という意味です。つまり「DB への問い合わせ内容のまとまり」が QuerySet です。',
         },
       ],
     },
     {
       id: 'evaluation',
-      heading: '1-4. いつ DB に問い合わせるのか（遅延評価）',
+      heading: '1-5. いつ DB に問い合わせるの？（遅延評価）',
       body: [
-        'QuerySet は「使おうとした瞬間」に初めて評価され、SQL が実行されます。これを遅延評価（lazy evaluation）と呼びます。代表的な「使おうとした瞬間」は次のとおりです。',
-        '逆に言うと、これらをしない限り何度 .filter() を繋いでも DB には触りません。だから条件を動的に組み立ててから最後にまとめて実行、という書き方が安全にできます。',
+        'QuerySet は「中身を使おうとした瞬間」に初めて DB に問い合わせます。このしくみを遅延評価（ちえんひょうか＝必要になるまで実行を後回しにすること）と呼びます。',
+        '「中身を使おうとした瞬間」の代表は、次のようなときです。逆に言うと、これらをしないかぎり、何回 .filter() をつなげても DB には触りません。',
       ],
       table: {
-        headers: ['評価されるきっかけ', '例'],
+        headers: ['DB に問い合わせるきっかけ', '書き方の例', 'やっていること'],
         rows: [
-          ['for で回す', 'for pl in qs:'],
-          ['リスト化する', 'list(qs)'],
-          ['len() で長さを得る', 'len(qs)'],
-          ['bool 判定する', 'if qs:'],
-          ['スライスで取り出す（一部）', 'qs[0] / qs[:5]'],
-          ['1件取得・集計・存在確認', '.first() / .count() / .exists()'],
+          ['for で1件ずつ回す', 'for pl in qs:', '中身を順番に取り出す'],
+          ['リストにする', 'list(qs)', '全部まとめて取り出す'],
+          ['件数を数える', 'len(qs)', '何件あるか知る'],
+          ['あるか確認する', 'if qs:', '1件でもあるか調べる'],
+          ['一部だけ取り出す', 'qs[0] / qs[:5]', '先頭や先頭5件を取り出す'],
         ],
       },
-      mermaid: `flowchart LR\n  A["filter() / order_by()<br/>を繋ぐ"] -->|まだ DB に行かない| B["QuerySet<br/>(設計図)"]\n  B -->|for / list() / len() / [:5]<br/>などで使った瞬間| C[("DB に SQL を実行")]\n  C --> D["結果が返る"]`,
+      mermaid: `flowchart LR\n  A["filter() / order_by()<br/>をつなぐ"] -->|まだ DB に行かない| B["QuerySet<br/>(注文票)"]\n  B -->|for / list() / len() / [:5]<br/>などで中身を使った瞬間| C[("DB に問い合わせ")]\n  C --> D["結果が返ってくる"]`,
       callouts: [
         {
           kind: 'warn',
-          text: '「使おうとした瞬間に実行」を知らないと、ループの中でうっかり QuerySet を何度も評価して、DB に同じ問い合わせを連発してしまうことがあります（性能の落とし穴。第11章で詳しく扱います）。',
+          text: 'この「使った瞬間に実行される」を知らないと、ループの中でうっかり同じ QuerySet を何度も評価して、DB に同じ問い合わせを連発してしまうことがあります（性能の落とし穴。第11章でくわしく扱います）。',
         },
       ],
     },
     {
       id: 'chaining',
-      heading: '1-5. チェーンできる ― 元の QuerySet は変わらない',
+      heading: '1-6. つなげて書ける ― 元の QuerySet は変わらない',
       body: [
-        '.filter() などは毎回「新しい QuerySet」を返します。元の QuerySet を書き換えるのではありません。そのため、共通のベースから枝分かれした複数のクエリを安全に作れます。',
+        '.filter() などは、呼ぶたびに「新しい注文票」を返します。元の注文票を書きかえるわけではありません。だから、共通のベースから枝分かれした複数の注文を、安心して作れます。',
       ],
       examples: [
         {
-          orm: `base = PickingList.objects.filter(warehouse_id=1)\n\n# base はそのまま。別々の設計図ができる\nactive = base.filter(status='in_progress')\ndone   = base.filter(status='completed')`,
-          note: 'active と done は base を共有しても互いに影響しません（base 自体も変わりません）。',
+          orm: `base = PickingList.objects.filter(warehouse_id=1)\n\n# base はそのまま。別々の注文票ができる\nactive = base.filter(status='in_progress')   # 作業中だけ\ndone   = base.filter(status='completed')     # 完了だけ`,
+          note: 'active と done は base をもとにしても、おたがいに影響しません。base 自身も変わりません。',
         },
       ],
     },
     {
       id: 'cache',
-      heading: '1-6. QuerySet はキャッシュされる',
+      heading: '1-7. 一度取ってきたら覚えておく（キャッシュ）',
       body: [
-        '一度評価された QuerySet は、その結果を内部にキャッシュします。同じ QuerySet を再び for で回しても、2回目は DB に問い合わせず、キャッシュした結果を使います。',
-        'ただし「別の QuerySet」を作り直した場合（例: もう一度 .filter() から書いた場合）は、当然もう一度 SQL が実行されます。キャッシュは「同じ QuerySet オブジェクト」に対して効く、と覚えておきましょう。',
+        '一度 DB に問い合わせた QuerySet は、その結果を中に覚えておきます（これをキャッシュと呼びます）。同じ QuerySet をもう一度 for で回しても、2回目は DB に行かず、覚えておいた結果を使います。',
+        'ただし「新しく作り直した QuerySet」（もう一度 .filter() から書いた場合など）は、別物なのでまた問い合わせが起きます。キャッシュは「同じ QuerySet を使い回したとき」に効く、と覚えておきましょう。',
       ],
       examples: [
         {
-          orm: `qs = PickingList.objects.filter(status='in_progress')\n\nlist(qs)   # ← ここで1回 SQL 実行\nlen(qs)    # ← キャッシュ利用。SQL は実行されない\nfor pl in qs:  # ← これもキャッシュ利用\n    ...`,
-          note: '同じ qs を使い回すと DB アクセスは1回だけ。',
+          orm: `qs = PickingList.objects.filter(status='in_progress')\n\nlist(qs)        # ← ここで1回だけ DB に問い合わせ\nlen(qs)         # ← 覚えていた結果を使う（問い合わせなし）\nfor pl in qs:   # ← これも覚えていた結果を使う\n    ...`,
+          note: '同じ qs を使い回すと、DB へのアクセスは1回だけで済みます。',
         },
       ],
       callouts: [
         {
           kind: 'tip',
-          text: '「件数も知りたいし中身も回したい」なら、qs を list() で1回だけ評価して、その list を使い回すと無駄な問い合わせを避けられます。',
+          text: '「件数も知りたいし中身も回したい」というときは、qs を一度 list() でまとめて取り出し、その list を使い回すと、ムダな問い合わせを減らせます。',
         },
+      ],
+    },
+    {
+      id: 'summary',
+      heading: '1-8. この章のまとめ',
+      body: [
+        'ORM は「Python と SQL のあいだの通訳さん」。Model.objects（窓口）から書きはじめ、.filter() などをつなげて「注文票（QuerySet）」を作る。',
+        '注文票は、中身を使おうとした瞬間（for / list / len / スライドなど）に初めて DB に問い合わせる（遅延評価）。一度取ってきたら覚えておく（キャッシュ）。',
+        '次の章では、その「取り出し方」のバリエーション（全部・1件だけ・件数だけ・あるか確認だけ）を見ていきます。',
       ],
     },
   ],

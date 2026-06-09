@@ -1,11 +1,15 @@
 import type { OrmChapter } from './types'
 import { ch01Basics } from './ch01-basics'
+import { ch02Fetching } from './ch02-fetching'
+import { ch03Filtering } from './ch03-filtering'
 
 // 「Django ORM 大全」の章レジストリ。
 // 執筆済みの章をここに登録すると、目次（/orm）とサイドバーに自動で並ぶ。
 export const ormChapters: OrmChapter[] = [
   ch01Basics,
-  // 第2章以降はここに追加していく。
+  ch02Fetching,
+  ch03Filtering,
+  // 第4章以降はここに追加していく。
 ]
 
 // 本全体の予定目次（章番号と題）。未執筆の章は目次に「準備中」として薄く表示する。
