@@ -121,7 +121,7 @@ export const ch01Basics: OrmChapter = {
           ['一部だけ取り出す', 'qs[0] / qs[:5]', '先頭や先頭5件を取り出す'],
         ],
       },
-      mermaid: `flowchart LR\n  A["filter() / order_by()<br/>をつなぐ"] -->|まだ DB に行かない| B["QuerySet<br/>(注文票)"]\n  B -->|for / list() / len() / [:5]<br/>などで中身を使った瞬間| C[("DB に問い合わせ")]\n  C --> D["結果が返ってくる"]`,
+      mermaid: `flowchart LR\n  A["filter や order_by を<br/>つなぐ（まだ DB に行かない）"] --> B["QuerySet<br/>（注文票）"]\n  B --> C["中身を使った瞬間に<br/>DB へ問い合わせ"]\n  C --> D["結果が返ってくる"]`,
       callouts: [
         {
           kind: 'warn',
