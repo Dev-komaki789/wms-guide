@@ -6,6 +6,11 @@ import { ch04QandF } from './ch04-q-and-f'
 import { ch05Shaping } from './ch05-shaping'
 import { ch06Relations } from './ch06-relations'
 import { ch07Aggregation } from './ch07-aggregation'
+import { ch08Advanced } from './ch08-advanced'
+import { ch09Writing } from './ch09-writing'
+import { ch10Transactions } from './ch10-transactions'
+import { ch11Pitfalls } from './ch11-pitfalls'
+import { ch12WmsRecap } from './ch12-wms-recap'
 
 // 「Django ORM 大全」の章レジストリ。
 // 執筆済みの章をここに登録すると、目次（/orm）とサイドバーに自動で並ぶ。
@@ -17,7 +22,11 @@ export const ormChapters: OrmChapter[] = [
   ch05Shaping,
   ch06Relations,
   ch07Aggregation,
-  // 第8章以降はここに追加していく。
+  ch08Advanced,
+  ch09Writing,
+  ch10Transactions,
+  ch11Pitfalls,
+  ch12WmsRecap,
 ]
 
 // 本全体の予定目次（章番号と題）。未執筆の章は目次に「準備中」として薄く表示する。
