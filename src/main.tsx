@@ -14,6 +14,9 @@ const DjangoCrudPage = lazy(() => import('./pages/DjangoCrudPage.tsx'))
 // ORM 大全（章ページは Mermaid を使うので遅延読み込み）。本番でも公開する。
 const OrmBookPage = lazy(() => import('./pages/OrmBookPage.tsx'))
 const OrmChapterPage = lazy(() => import('./pages/OrmChapterPage.tsx'))
+// WMS 技術メモ（Mermaid を使うので遅延読み込み）。本番でも公開する。
+const TechNotesPage = lazy(() => import('./pages/TechNotesPage.tsx'))
+const TechNotePage = lazy(() => import('./pages/TechNotePage.tsx'))
 
 const lazyEl = (el: ReactNode) => (
   <Suspense fallback={<p className="text-sm text-[var(--color-muted)]">読み込み中…</p>}>{el}</Suspense>
@@ -31,6 +34,8 @@ const router = createHashRouter([
       { path: 'sql-to-orm', element: <SqlToOrmPage /> },
       { path: 'orm', element: lazyEl(<OrmBookPage />) },
       { path: 'orm/:chapterId', element: lazyEl(<OrmChapterPage />) },
+      { path: 'tech', element: lazyEl(<TechNotesPage />) },
+      { path: 'tech/:noteId', element: lazyEl(<TechNotePage />) },
       { path: 'django-basics', element: lazyEl(<DjangoBasicsPage />) },
       { path: 'django-crud', element: lazyEl(<DjangoCrudPage />) },
     ],
