@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  /* コード中の日本語コメントが豆腐(□)にならないよう、JP フォントを末尾に足す。
+     英数字は JetBrains Mono（等幅）、日本語は Noto Sans JP にフォールバックする。 */
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Noto Sans JP', monospace;
+
+  /* ライトテーマのパレット（落ち着いたグレー基調 + 倉庫工程ごとのアクセント） */
+  --color-paper: #ffffff; /* 白いカード・本文背景 */
+  --color-mist: #f4f5f7; /* うすいグレーの地 */
+  --color-line: #e2e4e8; /* 罫線・枠 */
+  --color-ink: #4b5158; /* 本文 */
+  --color-head: #2c3137; /* 見出し */
+  --color-muted: #8b9298; /* 補足テキスト */
+  --color-accent: #2563eb; /* リンク・強調（出荷工程の青） */
+  --color-accent-soft: #eff4ff;
+  --color-ok: #15803d; /* 完了 */
+  --color-warn: #b45309; /* 欠品・注意 */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-mist);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mermaid 図はカード内で中央寄せ・横スクロール許容 */
+.mermaid-host svg {
+  max-width: 100%;
+  height: auto;
+}

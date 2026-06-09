@@ -1,0 +1,10 @@
+node_modules
+dist
+*.local
+.DS_Store
+.env
+.env.*
+
+# Django dev server (SQL→ORM 変換用・本番には不要)
+server/db.sqlite3
+server/.venv
