@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { screens } from './data/screens'
+import { ormChapterList } from './data/orm-book'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   [
@@ -28,6 +29,16 @@ function SidebarNav() {
         SQL → Django ORM 変換
       </NavLink>
 
+      <div className={groupLabelClass}>Django ORM 大全</div>
+      <NavLink to="/orm" className={navLinkClass} end>
+        目次
+      </NavLink>
+      {ormChapterList.map((c) => (
+        <NavLink key={c.id} to={`/orm/${c.id}`} className={navLinkClass}>
+          第{c.num}章 {c.title}
+        </NavLink>
+      ))}
+
       <div className={groupLabelClass}>学習メモ</div>
       <NavLink to="/django-basics" className={navLinkClass}>
         ① Django 入門（在庫照会を一から）
@@ -42,13 +53,29 @@ function SidebarNav() {
 export default function App() {
   const [open, setOpen] = useState(true)
 
-  // 本番（静的ビルド）では SQL↔ORM ツールだけの単独ページにする（サイドバー無し）。
+  // 本番（静的ビルド）では SQL↔ORM ツールと「ORM 大全」を公開する（上部ナビのみ・サイドバー無し）。
   if (!import.meta.env.DEV) {
+    const prodNavClass = ({ isActive }: { isActive: boolean }) =>
+      [
+        'rounded-lg px-3 py-1.5 text-sm transition-colors',
+        isActive
+          ? 'bg-[var(--color-accent-soft)] font-medium text-[var(--color-accent)]'
+          : 'text-[var(--color-ink)] hover:bg-[var(--color-mist)]',
+      ].join(' ')
     return (
       <div className="min-h-screen">
-        <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-[var(--color-line)] bg-[var(--color-paper)] px-5 py-3">
-          <span className="text-base font-bold text-[var(--color-head)]">WMS Guide</span>
-          <span className="text-xs text-[var(--color-muted)]">SQL ↔ ORM / クエリ実行ツール</span>
+        <header className="sticky top-0 z-20 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-[var(--color-line)] bg-[var(--color-paper)] px-5 py-3">
+          <NavLink to="/" end className="text-base font-bold text-[var(--color-head)]">
+            WMS Guide
+          </NavLink>
+          <nav className="flex items-center gap-1">
+            <NavLink to="/" end className={prodNavClass}>
+              SQL↔ORM ツール
+            </NavLink>
+            <NavLink to="/orm" className={prodNavClass}>
+              Django ORM 大全
+            </NavLink>
+          </nav>
         </header>
         <main className="px-5 py-8 lg:px-10">
           <Outlet />

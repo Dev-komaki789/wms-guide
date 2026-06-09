@@ -11,6 +11,9 @@ import SqlToOrmPage from './pages/SqlToOrmPage.tsx'
 const ScreenPage = lazy(() => import('./pages/ScreenPage.tsx'))
 const DjangoBasicsPage = lazy(() => import('./pages/DjangoBasicsPage.tsx'))
 const DjangoCrudPage = lazy(() => import('./pages/DjangoCrudPage.tsx'))
+// ORM 大全（章ページは Mermaid を使うので遅延読み込み）。本番でも公開する。
+const OrmBookPage = lazy(() => import('./pages/OrmBookPage.tsx'))
+const OrmChapterPage = lazy(() => import('./pages/OrmChapterPage.tsx'))
 
 const lazyEl = (el: ReactNode) => (
   <Suspense fallback={<p className="text-sm text-[var(--color-muted)]">読み込み中…</p>}>{el}</Suspense>
@@ -26,6 +29,8 @@ const router = createHashRouter([
       { index: true, element: import.meta.env.DEV ? <HomePage /> : <SqlToOrmPage /> },
       { path: 'screen/:screenId', element: lazyEl(<ScreenPage />) },
       { path: 'sql-to-orm', element: <SqlToOrmPage /> },
+      { path: 'orm', element: lazyEl(<OrmBookPage />) },
+      { path: 'orm/:chapterId', element: lazyEl(<OrmChapterPage />) },
       { path: 'django-basics', element: lazyEl(<DjangoBasicsPage />) },
       { path: 'django-crud', element: lazyEl(<DjangoCrudPage />) },
     ],
