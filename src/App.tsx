@@ -3,6 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { screens } from './data/screens'
 import { ormChapterList } from './data/orm-book'
 import { reactChapterList } from './data/react-book'
+import { ecChapterListNav } from './data/ec-code'
 import { techNoteList } from './data/tech-notes'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -48,6 +49,16 @@ function SidebarNav() {
       {reactChapterList.map((c) => (
         <NavLink key={c.id} to={`/react/${c.id}`} className={navLinkClass}>
           第{c.num}章 {c.title}
+        </NavLink>
+      ))}
+
+      <div className={groupLabelClass}>EC コード解説</div>
+      <NavLink to="/ec" className={navLinkClass} end>
+        目次
+      </NavLink>
+      {ecChapterListNav.map((c) => (
+        <NavLink key={c.id} to={`/ec/${c.id}`} className={navLinkClass}>
+          ＃{c.num} {c.title}
         </NavLink>
       ))}
 
@@ -97,6 +108,9 @@ export default function App() {
             </NavLink>
             <NavLink to="/react" className={prodNavClass}>
               React 大全
+            </NavLink>
+            <NavLink to="/ec" className={prodNavClass}>
+              EC コード解説
             </NavLink>
             <NavLink to="/tech" className={prodNavClass}>
               WMS 技術メモ

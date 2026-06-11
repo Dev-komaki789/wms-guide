@@ -20,6 +20,9 @@ const TechNotePage = lazy(() => import('./pages/TechNotePage.tsx'))
 // React 大全（章ページは Mermaid を使うので遅延読み込み）。本番でも公開する。
 const ReactBookPage = lazy(() => import('./pages/ReactBookPage.tsx'))
 const ReactChapterPage = lazy(() => import('./pages/ReactChapterPage.tsx'))
+// EC コード解説（Mermaid を使うので遅延読み込み）。本番でも公開する。
+const EcCodePage = lazy(() => import('./pages/EcCodePage.tsx'))
+const EcChapterPage = lazy(() => import('./pages/EcChapterPage.tsx'))
 
 const lazyEl = (el: ReactNode) => (
   <Suspense fallback={<p className="text-sm text-[var(--color-muted)]">読み込み中…</p>}>{el}</Suspense>
@@ -44,6 +47,8 @@ const router = createHashRouter([
       { path: 'tech/:noteId', element: lazyEl(<TechNotePage />) },
       { path: 'react', element: lazyEl(<ReactBookPage />) },
       { path: 'react/:chapterId', element: lazyEl(<ReactChapterPage />) },
+      { path: 'ec', element: lazyEl(<EcCodePage />) },
+      { path: 'ec/:chapterId', element: lazyEl(<EcChapterPage />) },
       { path: 'django-basics', element: lazyEl(<DjangoBasicsPage />) },
       { path: 'django-crud', element: lazyEl(<DjangoCrudPage />) },
     ],
