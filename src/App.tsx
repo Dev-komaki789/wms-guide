@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { screens } from './data/screens'
 import { ormChapterList } from './data/orm-book'
+import { reactChapterList } from './data/react-book'
 import { techNoteList } from './data/tech-notes'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -36,6 +37,16 @@ function SidebarNav() {
       </NavLink>
       {ormChapterList.map((c) => (
         <NavLink key={c.id} to={`/orm/${c.id}`} className={navLinkClass}>
+          第{c.num}章 {c.title}
+        </NavLink>
+      ))}
+
+      <div className={groupLabelClass}>React 大全</div>
+      <NavLink to="/react" className={navLinkClass} end>
+        目次
+      </NavLink>
+      {reactChapterList.map((c) => (
+        <NavLink key={c.id} to={`/react/${c.id}`} className={navLinkClass}>
           第{c.num}章 {c.title}
         </NavLink>
       ))}
@@ -85,6 +96,9 @@ export default function App() {
             </NavLink>
             <NavLink to="/orm" className={prodNavClass}>
               Django ORM 大全
+            </NavLink>
+            <NavLink to="/react" className={prodNavClass}>
+              React 大全
             </NavLink>
             <NavLink to="/tech" className={prodNavClass}>
               WMS 技術メモ

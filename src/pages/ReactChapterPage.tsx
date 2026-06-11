@@ -1,0 +1,65 @@
+import { Link, useParams } from 'react-router-dom'
+import ReactBookChapter from '../components/ReactBookChapter'
+import { getReactChapter, reactChapters } from '../data/react-book'
+
+// 「React 大全」の1章ページ（/react/:chapterId）。前後の章・目次への導線つき。
+export default function ReactChapterPage() {
+  const { chapterId } = useParams()
+  const chapter = chapterId ? getReactChapter(chapterId) : undefined
+
+  if (!chapter) {
+    return (
+      <div className="mx-auto max-w-3xl">
+        <p className="text-[var(--color-ink)]">その章は見つかりませんでした（準備中かもしれません）。</p>
+        <Link to="/react" className="mt-3 inline-block text-sm font-medium text-[var(--color-accent)]">
+          ← 目次へ戻る
+        </Link>
+      </div>
+    )
+  }
+
+  const idx = reactChapters.findIndex((c) => c.id === chapter.id)
+  const prev = idx > 0 ? reactChapters[idx - 1] : undefined
+  const next = idx < reactChapters.length - 1 ? reactChapters[idx + 1] : undefined
+
+  return (
+    <div className="mx-auto max-w-3xl">
+      <Link to="/react" className="text-sm font-medium text-[var(--color-accent)]">
+        ← React 大全（目次）
+      </Link>
+
+      <div className="mt-4">
+        <ReactBookChapter chapter={chapter} />
+      </div>
+
+      <nav className="mt-12 flex gap-3 border-t border-[var(--color-line)] pt-5">
+        {prev ? (
+          <Link
+            to={`/react/${prev.id}`}
+            className="flex-1 rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] px-4 py-3 transition-colors hover:border-[var(--color-accent)]"
+          >
+            <div className="text-xs text-[var(--color-muted)]">← 前の章</div>
+            <div className="mt-0.5 text-sm font-medium text-[var(--color-head)]">
+              第{prev.num}章 {prev.title}
+            </div>
+          </Link>
+        ) : (
+          <div className="flex-1" />
+        )}
+        {next ? (
+          <Link
+            to={`/react/${next.id}`}
+            className="flex-1 rounded-lg border border-[var(--color-line)] bg-[var(--color-paper)] px-4 py-3 text-right transition-colors hover:border-[var(--color-accent)]"
+          >
+            <div className="text-xs text-[var(--color-muted)]">次の章 →</div>
+            <div className="mt-0.5 text-sm font-medium text-[var(--color-head)]">
+              第{next.num}章 {next.title}
+            </div>
+          </Link>
+        ) : (
+          <div className="flex-1" />
+        )}
+      </nav>
+    </div>
+  )
+}
