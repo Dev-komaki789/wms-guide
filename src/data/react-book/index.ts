@@ -5,6 +5,15 @@ import { ch03ListKey } from './ch03-list-key'
 import { ch04Conditional } from './ch04-conditional'
 import { ch05UseState } from './ch05-usestate'
 import { ch06Events } from './ch06-events'
+import { ch07UseEffect } from './ch07-useeffect'
+import { ch08Routing } from './ch08-routing'
+import { ch09Context } from './ch09-context'
+import { ch10CustomHooks } from './ch10-custom-hooks'
+import { ch11Api } from './ch11-api'
+import { ch12TypeScript } from './ch12-typescript'
+import { ch13UseRef } from './ch13-useref'
+import { ch14UseMemoUseReducer } from './ch14-usememo-usereducer'
+import { ch15Rerender } from './ch15-rerender'
 
 // 「React 大全」の章レジストリ。
 // 執筆済みの章をここに登録すると、目次（/react）に自動で並ぶ。
@@ -15,6 +24,15 @@ export const reactChapters: ReactChapter[] = [
   ch04Conditional,
   ch05UseState,
   ch06Events,
+  ch07UseEffect,
+  ch08Routing,
+  ch09Context,
+  ch10CustomHooks,
+  ch11Api,
+  ch12TypeScript,
+  ch13UseRef,
+  ch14UseMemoUseReducer,
+  ch15Rerender,
 ]
 
 // 本全体の予定目次（章番号と題）。未執筆の章は目次に「準備中」として薄く表示する。
