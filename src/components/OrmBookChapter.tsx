@@ -54,10 +54,10 @@ const calloutStyle: Record<string, { box: string; label: string; icon: string }>
 function Section({ section }: { section: OrmSection }) {
   return (
     <section id={section.id} className="scroll-mt-20">
-      <h2 className="text-xl font-bold text-[var(--color-head)]">{section.heading}</h2>
+      <h2 className="mx-auto max-w-3xl text-xl font-bold text-[var(--color-head)]">{section.heading}</h2>
 
       {section.body?.map((p, i) => (
-        <p key={i} className="mt-3 max-w-3xl leading-relaxed text-[var(--color-ink)]">
+        <p key={i} className="mx-auto mt-3 max-w-3xl leading-relaxed text-[var(--color-ink)]">
           {p}
         </p>
       ))}
@@ -113,7 +113,7 @@ function Section({ section }: { section: OrmSection }) {
       {section.callouts?.map((c, i) => {
         const s = calloutStyle[c.kind]
         return (
-          <div key={i} className={`mt-4 max-w-3xl rounded-lg border px-4 py-3 text-sm leading-relaxed ${s.box}`}>
+          <div key={i} className={`mx-auto mt-4 max-w-3xl rounded-lg border px-4 py-3 text-sm leading-relaxed ${s.box}`}>
             <span className="mr-1">{s.icon}</span>
             <span className="font-semibold text-[var(--color-head)]">{s.label}：</span>
             <span className="text-[var(--color-ink)]">{c.text}</span>
@@ -128,13 +128,15 @@ export default function OrmBookChapter({ chapter }: { chapter: OrmChapter }) {
   return (
     <article>
       <header className="border-b border-[var(--color-line)] pb-4">
-        <div className="text-sm font-semibold text-[var(--color-accent)]">第{chapter.num}章</div>
-        <h1 className="mt-1 text-2xl font-bold text-[var(--color-head)]">{chapter.title}</h1>
-        <p className="mt-2 max-w-3xl text-[var(--color-ink)]">{chapter.summary}</p>
+        <div className="mx-auto max-w-3xl">
+          <div className="text-sm font-semibold text-[var(--color-accent)]">第{chapter.num}章</div>
+          <h1 className="mt-1 text-2xl font-bold text-[var(--color-head)]">{chapter.title}</h1>
+          <p className="mt-2 text-[var(--color-ink)]">{chapter.summary}</p>
+        </div>
       </header>
 
       {chapter.intro?.length ? (
-        <div className="mt-5 max-w-3xl space-y-3">
+        <div className="mx-auto mt-5 max-w-3xl space-y-3">
           {chapter.intro.map((p, i) => (
             <p key={i} className="leading-relaxed text-[var(--color-ink)]">
               {p}
