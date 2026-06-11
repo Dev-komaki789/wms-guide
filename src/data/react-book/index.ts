@@ -14,6 +14,11 @@ import { ch12TypeScript } from './ch12-typescript'
 import { ch13UseRef } from './ch13-useref'
 import { ch14UseMemoUseReducer } from './ch14-usememo-usereducer'
 import { ch15Rerender } from './ch15-rerender'
+import { ch16Styling } from './ch16-styling'
+import { ch17RobustLoading } from './ch17-robust-loading'
+import { ch18StateDesign } from './ch18-state-design'
+import { ch19KeyIdentity } from './ch19-key-identity'
+import { ch20Ecosystem } from './ch20-ecosystem'
 
 // 「React 大全」の章レジストリ。
 // 執筆済みの章をここに登録すると、目次（/react）に自動で並ぶ。
@@ -33,6 +38,11 @@ export const reactChapters: ReactChapter[] = [
   ch13UseRef,
   ch14UseMemoUseReducer,
   ch15Rerender,
+  ch16Styling,
+  ch17RobustLoading,
+  ch18StateDesign,
+  ch19KeyIdentity,
+  ch20Ecosystem,
 ]
 
 // 本全体の予定目次（章番号と題）。未執筆の章は目次に「準備中」として薄く表示する。
@@ -56,6 +66,11 @@ export const reactOutline: ReactOutlineEntry[] = [
   { num: 13, title: 'useRef ― 再描画させずに値や DOM を持つ' },
   { num: 14, title: 'useMemo・useReducer ― 重い計算と複雑な状態' },
   { num: 15, title: '再レンダリングと最適化 ― memo と「なぜ無駄に描き直すのか」' },
+  { num: 16, title: 'スタイリング ― className と Tailwind' },
+  { num: 17, title: '壊れに強く・賢く読み込む ― エラーバウンダリ / Suspense・lazy / Portal' },
+  { num: 18, title: 'state 設計 ― 持ち上げ・派生state・useEffect を使わない場面' },
+  { num: 19, title: 'key とコンポーネントの同一性 ― なぜ state がリセットされるのか' },
+  { num: 20, title: '次の一歩 ― React のまわりの道具（エコシステム）' },
 ]
 
 export function getReactChapter(id: string): ReactChapter | undefined {
