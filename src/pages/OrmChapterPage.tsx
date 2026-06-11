@@ -23,7 +23,7 @@ export default function OrmChapterPage() {
   const next = idx < ormChapters.length - 1 ? ormChapters[idx + 1] : undefined
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto max-w-3xl">
       <Link to="/orm" className="text-sm font-medium text-[var(--color-accent)]">
         ← Django ORM 大全（目次）
       </Link>
