@@ -11,6 +11,12 @@ import { ch09Writing } from './ch09-writing'
 import { ch10Transactions } from './ch10-transactions'
 import { ch11Pitfalls } from './ch11-pitfalls'
 import { ch12WmsRecap } from './ch12-wms-recap'
+import { ch13Models } from './ch13-models'
+import { ch14RelationsDefine } from './ch14-relations-define'
+import { ch15Migrations } from './ch15-migrations'
+import { ch16Expressions } from './ch16-expressions'
+import { ch17ReusePaging } from './ch17-reuse-paging'
+import { ch18RawAndPerf } from './ch18-raw-and-perf'
 
 // 「Django ORM 大全」の章レジストリ。
 // 執筆済みの章をここに登録すると、目次（/orm）とサイドバーに自動で並ぶ。
@@ -27,6 +33,12 @@ export const ormChapters: OrmChapter[] = [
   ch10Transactions,
   ch11Pitfalls,
   ch12WmsRecap,
+  ch13Models,
+  ch14RelationsDefine,
+  ch15Migrations,
+  ch16Expressions,
+  ch17ReusePaging,
+  ch18RawAndPerf,
 ]
 
 // 本全体の予定目次（章番号と題）。未執筆の章は目次に「準備中」として薄く表示する。
@@ -47,6 +59,12 @@ export const ormOutline: OutlineEntry[] = [
   { num: 10, title: 'トランザクションとロック ― atomic / select_for_update' },
   { num: 11, title: '落とし穴と性能 ― count vs len / exists / 余計な評価' },
   { num: 12, title: 'WMS 実例で総復習 ― 画面のクエリを読み解く' },
+  { num: 13, title: 'モデルを定義する ― フィールドと Meta' },
+  { num: 14, title: 'リレーションを貼る ― ForeignKey / OneToOne / ManyToMany' },
+  { num: 15, title: 'マイグレーション ― 設計図を DB に反映する' },
+  { num: 16, title: 'もっと表現力を ― 条件式・日付の集計・一括更新・順位づけ' },
+  { num: 17, title: 'クエリを再利用する ― カスタム Manager / QuerySet とページング' },
+  { num: 18, title: 'ORM の外側と性能の測りかた ― 生 SQL・索引・計測' },
 ]
 
 export function getChapter(id: string): OrmChapter | undefined {
