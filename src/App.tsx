@@ -75,7 +75,8 @@ function SidebarNav() {
 export default function App() {
   const [open, setOpen] = useState(true)
 
-  // 本番（静的ビルド）では SQL↔ORM ツールと「ORM 大全」を公開する（上部ナビのみ・サイドバー無し）。
+  // 本番（静的ビルド）では学習コンテンツ（ORM 大全・React 大全・技術メモ）のみ公開する
+  // （上部ナビのみ・サイドバー無し）。SQL↔ORM ツールと同梱DBは開発時専用で本番には出さない。
   if (!import.meta.env.DEV) {
     const prodNavClass = ({ isActive }: { isActive: boolean }) =>
       [
@@ -87,13 +88,10 @@ export default function App() {
     return (
       <div className="min-h-screen">
         <header className="sticky top-0 z-20 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-[var(--color-line)] bg-[var(--color-paper)] px-5 py-3">
-          <NavLink to="/" end className="text-base font-bold text-[var(--color-head)]">
+          <NavLink to="/orm" className="text-base font-bold text-[var(--color-head)]">
             WMS Guide
           </NavLink>
           <nav className="flex items-center gap-1">
-            <NavLink to="/" end className={prodNavClass}>
-              SQL↔ORM ツール
-            </NavLink>
             <NavLink to="/orm" className={prodNavClass}>
               Django ORM 大全
             </NavLink>

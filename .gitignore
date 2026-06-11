@@ -8,3 +8,7 @@ dist
 # Django dev server (SQL→ORM 変換用・本番には不要)
 server/db.sqlite3
 server/.venv
+
+# 同梱SQLite（SQL実行ツール用）。開発時のみローカルに置く。
+# 本番(GitHub Pages)には載せない＝リポジトリにコミットしない（DBが公開DLされるのを防ぐ）。
+public/wms.sqlite

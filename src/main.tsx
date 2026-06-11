@@ -1,6 +1,6 @@
 import { StrictMode, Suspense, lazy, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createHashRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, Navigate, RouterProvider } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import HomePage from './pages/HomePage.tsx'
@@ -31,10 +31,13 @@ const router = createHashRouter([
     path: '/',
     element: <App />,
     children: [
-      // 本番（静的ビルド）では「このページだけ」公開したいので、トップを SQL↔ORM ツールにする。
-      { index: true, element: import.meta.env.DEV ? <HomePage /> : <SqlToOrmPage /> },
+      // SQL↔ORM ツール（同梱DBを使う）は開発時のみ。本番ではトップを ORM 大全へ。
+      { index: true, element: import.meta.env.DEV ? <HomePage /> : <Navigate to="/orm" replace /> },
       { path: 'screen/:screenId', element: lazyEl(<ScreenPage />) },
-      { path: 'sql-to-orm', element: <SqlToOrmPage /> },
+      {
+        path: 'sql-to-orm',
+        element: import.meta.env.DEV ? <SqlToOrmPage /> : <Navigate to="/orm" replace />,
+      },
       { path: 'orm', element: lazyEl(<OrmBookPage />) },
       { path: 'orm/:chapterId', element: lazyEl(<OrmChapterPage />) },
       { path: 'tech', element: lazyEl(<TechNotesPage />) },
