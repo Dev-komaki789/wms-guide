@@ -7,6 +7,10 @@ import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
 
 const MAX_ROWS = 200
 
+// 個人情報・パスワードを含むため参照禁止のテーブル。
+// 同梱 wms.sqlite からは既に削除済みだが、念のためクエリ側でも明示的に拒否する（多重防御）。
+const FORBIDDEN_TABLES = /\b(users|users_groups|users_user_permissions)\b/
+
 let dbPromise: Promise<Database> | null = null
 
 function loadDb(): Promise<Database> {
@@ -48,6 +52,9 @@ export async function runSelect(raw: string): Promise<RunResult> {
   }
   if (sql.includes(';')) {
     throw new Error('複数の文は実行できません（; は1つだけ・末尾のみ）。')
+  }
+  if (FORBIDDEN_TABLES.test(low)) {
+    throw new Error('users（ユーザー）テーブルは個人情報・パスワードを含むため、このツールでは参照できません。')
   }
 
   const db = await loadDb()

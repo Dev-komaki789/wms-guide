@@ -20,7 +20,17 @@ WMS_ROOT = Path(__file__).resolve().parents[2] / "wms"
 OUT = Path(__file__).resolve().parents[1] / "public" / "wms.sqlite"
 
 # 公開したくない / 学習に不要なテーブルは除外。
-SKIP_TABLES = {"django_session", "django_admin_log"}
+# users 系はパスワード(ハッシュ)・メール等の個人情報を含むため必ず除外する。
+SKIP_TABLES = {
+    "django_session",
+    "django_admin_log",
+    "users",
+    "users_groups",
+    "users_user_permissions",
+    "auth_user",
+    "auth_user_groups",
+    "auth_user_user_permissions",
+}
 
 
 def pg_params():
@@ -104,8 +114,8 @@ def main():
             batch = []
             for row in cur:
                 vals = [conv(v) for v in row]
-                # auth_user.password は公開したくないので空にする
-                if t == "auth_user" and "password" in col_names:
+                # 念のため、どのテーブルでも password 列があれば必ず空にする（多重防御）。
+                if "password" in col_names:
                     vals[col_names.index("password")] = ""
                 batch.append(vals)
                 if len(batch) >= 1000:
