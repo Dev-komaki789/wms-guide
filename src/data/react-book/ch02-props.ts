@@ -21,7 +21,8 @@ export const ch02Props: ReactChapter = {
       examples: [
         {
           code: `function Welcome(props) {\n  return <h1>こんにちは、{props.name} さん！</h1>\n}\n\nfunction App() {\n  return (\n    <div>\n      <Welcome name="たなか" />\n      <Welcome name="すずき" />\n    </div>\n  )\n}`,
-          result: `こんにちは、たなか さん！\nこんにちは、すずき さん！`,
+          live: true,
+          mount: '<App />',
           note: '同じ Welcome 部品でも、わたす name によって表示が変わります。「部品はそのまま、中身だけ差し替える」のが props です。',
         },
       ],
@@ -55,7 +56,8 @@ export const ch02Props: ReactChapter = {
       examples: [
         {
           code: `function ProductCard({ name, price, soldOut }) {\n  return (\n    <div>\n      <h2>{name}</h2>\n      <p>{price} 円</p>\n      <p>{soldOut ? '売り切れ' : '在庫あり'}</p>\n    </div>\n  )\n}\n\nfunction App() {\n  return (\n    <ProductCard name="ボールペン" price={120} soldOut={false} />\n  )\n}`,
-          result: `ボールペン\n120 円\n在庫あり`,
+          live: true,
+          mount: '<App />',
           note: '文字は name="ボールペン" とそのまま、数値や true/false は price={120} soldOut={false} のように波カッコで囲んでわたします。',
         },
       ],
@@ -76,7 +78,8 @@ export const ch02Props: ReactChapter = {
       examples: [
         {
           code: `function Box({ children }) {\n  return <div className="box">{children}</div>\n}\n\nfunction App() {\n  return (\n    <Box>\n      <h2>タイトル</h2>\n      <p>この中身が children として Box にわたる。</p>\n    </Box>\n  )\n}`,
-          result: `┌─────────────────────┐\n│ タイトル              │\n│ この中身が children…  │\n└─────────────────────┘`,
+          live: true,
+          mount: '<App />',
           note: '<Box> と </Box> ではさんだ部分が、まるごと children になって {children} の場所に表示されます。枠（Box）と中身を分けて作れます。',
         },
       ],

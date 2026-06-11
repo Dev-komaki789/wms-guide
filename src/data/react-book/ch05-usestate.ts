@@ -35,7 +35,8 @@ export const ch05UseState: ReactChapter = {
       examples: [
         {
           code: `import { useState } from 'react'\n\nfunction Counter() {\n  const [count, setCount] = useState(0)\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      {count} 回\n    </button>\n  )\n}`,
-          result: `押すたびに：0 回 → 1 回 → 2 回 …（画面が更新される）`,
+          live: true,
+          mount: '<Counter />',
           note: 'setCount(count + 1) で「次は今より1多い値にして」とお願いします。すると React が画面を描き直し、新しい count が表示されます。',
         },
       ],

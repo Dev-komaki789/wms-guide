@@ -21,7 +21,8 @@ export const ch03ListKey: ReactChapter = {
       examples: [
         {
           code: `function NameList() {\n  const names = ['たなか', 'すずき', 'さとう']\n  return (\n    <ul>\n      {names.map((name) => (\n        <li key={name}>{name}</li>\n      ))}\n    </ul>\n  )\n}`,
-          result: `・たなか\n・すずき\n・さとう`,
+          live: true,
+          mount: '<NameList />',
           note: 'names.map((name) => <li>...</li>) は「配列の1件ずつを <li> に変える」という意味。結果の <li> の配列を、そのまま <ul> の中に並べてくれます。',
         },
       ],
@@ -41,7 +42,8 @@ export const ch03ListKey: ReactChapter = {
       examples: [
         {
           code: `function ProductCard({ name, price }) {\n  return (\n    <div className="card">\n      <h2>{name}</h2>\n      <p>{price} 円</p>\n    </div>\n  )\n}\n\nfunction ProductList() {\n  const products = [\n    { id: 1, name: 'ボールペン', price: 120 },\n    { id: 2, name: 'ノート', price: 200 },\n    { id: 3, name: '消しゴム', price: 80 },\n  ]\n  return (\n    <div>\n      {products.map((p) => (\n        <ProductCard key={p.id} name={p.name} price={p.price} />\n      ))}\n    </div>\n  )\n}`,
-          result: `ボールペン  120 円\nノート     200 円\n消しゴム    80 円`,
+          live: true,
+          mount: '<ProductList />',
           note: '1件（p）ごとに、その中身を props として ProductCard にわたしています。データが3件でも1000件でも、書くコードはこの数行のままです。',
         },
       ],

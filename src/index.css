@@ -36,3 +36,73 @@ body {
   max-width: 100%;
   height: auto;
 }
+
+/* React 大全のライブプレビュー枠の中だけ、ふつうの HTML らしい見た目に戻す。
+   （Tailwind のリセットで消える見出し・箇条書き・ボタン・入力欄の既定スタイルを補う） */
+.live-preview h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.3em 0;
+  color: var(--color-head);
+}
+.live-preview h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0.3em 0;
+  color: var(--color-head);
+}
+.live-preview p {
+  margin: 0.4em 0;
+}
+.live-preview ul {
+  list-style: disc;
+  padding-left: 1.4em;
+  margin: 0.4em 0;
+}
+.live-preview ol {
+  list-style: decimal;
+  padding-left: 1.6em;
+  margin: 0.4em 0;
+}
+.live-preview button {
+  cursor: pointer;
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-radius: 0.5rem;
+  padding: 0.35em 0.9em;
+  font-size: 0.95em;
+}
+.live-preview button + button {
+  margin-left: 0.5rem;
+}
+.live-preview input,
+.live-preview select,
+.live-preview textarea {
+  border: 1px solid var(--color-line);
+  border-radius: 0.4rem;
+  padding: 0.3em 0.6em;
+  font-size: 0.95em;
+  margin: 0.15em 0;
+}
+.live-preview .card,
+.live-preview .box,
+.live-preview .notice {
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  padding: 0.75rem 1rem;
+  margin: 0.4em 0;
+  background: var(--color-mist);
+}
+.live-preview .badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-warn) 15%, transparent);
+  color: var(--color-warn);
+  padding: 0.1em 0.6em;
+  font-size: 0.8em;
+}
+.live-preview .title {
+  font-weight: 700;
+}

@@ -21,7 +21,8 @@ export const ch04Conditional: ReactChapter = {
       examples: [
         {
           code: `function StockBadge({ stock }) {\n  return (\n    <div>\n      <p>在庫: {stock}</p>\n      {stock < 5 && <span className="badge">残りわずか</span>}\n    </div>\n  )\n}`,
-          result: `stock=3 のとき：  在庫: 3  残りわずか\nstock=20 のとき： 在庫: 20`,
+          live: true,
+          mount: '<div><StockBadge stock={3} /><StockBadge stock={20} /></div>',
           note: 'stock < 5 が true のときだけ <span>残りわずか</span> が出ます。false のときは何も出ません（消える）。',
         },
       ],
@@ -42,7 +43,8 @@ export const ch04Conditional: ReactChapter = {
       examples: [
         {
           code: `function Header({ user }) {\n  return (\n    <header>\n      {user ? (\n        <span>こんにちは、{user.name} さん</span>\n      ) : (\n        <a href="/login">ログイン</a>\n      )}\n    </header>\n  )\n}`,
-          result: `user あり： こんにちは、たなか さん\nuser なし： ログイン（リンク）`,
+          live: true,
+          mount: '<Header user={{ name: "たなか" }} />',
           note: 'user ? (名前) : (ログインリンク)。? の前が条件、? と : のあいだが「真のときの表示」、: の後ろが「偽のときの表示」です。',
         },
       ],

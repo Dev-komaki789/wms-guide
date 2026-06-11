@@ -1,5 +1,9 @@
+import { Suspense, lazy } from 'react'
 import Mermaid from './Mermaid'
 import type { ReactChapter, ReactExample, ReactSection } from '../data/react-book/types'
+
+// ライブプレビューは sucrase を使うので遅延読み込み（ライブ例を含む章を開いたときだけ）。
+const LiveExample = lazy(() => import('./LiveExample'))
 
 // 「React 大全」の1章を描画する。
 // 各節は 本文 → コード例（コード/見え方/解説）→ 表 → 図 → 注意囲み の順に出す。
@@ -23,7 +27,15 @@ function Example({ ex }: { ex: ReactExample }) {
   return (
     <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] p-4">
       <CodeBlock label={ex.lang ?? 'tsx'}>{ex.code}</CodeBlock>
-      {ex.result ? (
+      {ex.live && ex.mount ? (
+        <Suspense
+          fallback={
+            <p className="mt-3 text-xs text-[var(--color-muted)]">プレビューを準備中…</p>
+          }
+        >
+          <LiveExample code={ex.code} mount={ex.mount} />
+        </Suspense>
+      ) : ex.result ? (
         <div className="mt-3">
           <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
             画面での見え方 / 出力

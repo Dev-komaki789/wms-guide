@@ -41,7 +41,8 @@ export const ch06Events: ReactChapter = {
       examples: [
         {
           code: `function NameInput() {\n  const [name, setName] = useState('')\n\n  return (\n    <div>\n      <input\n        value={name}\n        onChange={(e) => setName(e.target.value)}\n      />\n      <p>こんにちは、{name} さん</p>\n    </div>\n  )\n}`,
-          result: `「た」と打つ → こんにちは、た さん\n「たなか」まで打つ → こんにちは、たなか さん`,
+          live: true,
+          mount: '<NameInput />',
           note: '入力のたびに setName で状態を更新 → 画面の {name} も即座に追従します。打った文字がリアルタイムで下の文に映ります。',
         },
       ],
@@ -71,7 +72,9 @@ export const ch06Events: ReactChapter = {
       examples: [
         {
           code: `function LoginForm() {\n  const [email, setEmail] = useState('')\n  const [password, setPassword] = useState('')\n\n  function handleSubmit(e) {\n    e.preventDefault()  // ページ再読み込みを止める\n    console.log('送信:', email, password)\n    // ここでサーバーにログイン要求を送る（第11章）\n  }\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input value={email} onChange={(e) => setEmail(e.target.value)} />\n      <input\n        type="password"\n        value={password}\n        onChange={(e) => setPassword(e.target.value)}\n      />\n      <button type="submit">ログイン</button>\n    </form>\n  )\n}`,
-          note: 'type="submit" のボタンを押すか Enter で onSubmit が発火。先頭の e.preventDefault() で再読み込みを止め、集めた email / password を使って処理します。',
+          live: true,
+          mount: '<LoginForm />',
+          note: 'type="submit" のボタンを押すか Enter で onSubmit が発火。先頭の e.preventDefault() で再読み込みを止め、集めた email / password を使って処理します。下のフォームは実際に入力でき、送信するとブラウザの開発者ツールのコンソールに値が出ます。',
         },
       ],
       callouts: [

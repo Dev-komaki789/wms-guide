@@ -36,7 +36,8 @@ export const ch01Jsx: ReactChapter = {
       examples: [
         {
           code: `function Welcome() {\n  return <h1>こんにちは！</h1>\n}`,
-          result: `こんにちは！   ← 大きな見出しとして表示される`,
+          live: true,
+          mount: '<Welcome />',
           note: '「Welcome という部品は、＜h1＞こんにちは！＜/h1＞ という見た目を返す」と読みます。この関数を画面のあちこちで使い回せます。',
         },
       ],
@@ -78,7 +79,8 @@ export const ch01Jsx: ReactChapter = {
       examples: [
         {
           code: `function Greeting() {\n  const name = 'たなか'\n  const hour = 9\n  return (\n    <div>\n      <p>こんにちは、{name} さん</p>\n      <p>2 + 3 = {2 + 3}</p>\n      <p>{hour < 12 ? '午前' : '午後'}です</p>\n    </div>\n  )\n}`,
-          result: `こんにちは、たなか さん\n2 + 3 = 5\n午前です`,
+          live: true,
+          mount: '<Greeting />',
           note: '{name} は変数の中身、{2 + 3} は計算結果、{hour < 12 ? ...} は条件によって変わる値です。文字の中に「動く部分」を差し込めるのが波カッコです。',
         },
       ],
@@ -120,7 +122,8 @@ export const ch01Jsx: ReactChapter = {
       examples: [
         {
           code: `function Welcome() {\n  return <h1>こんにちは！</h1>\n}\n\nfunction App() {\n  return (\n    <div>\n      <Welcome />\n      <Welcome />\n      <p>ようこそ React の世界へ。</p>\n    </div>\n  )\n}`,
-          result: `こんにちは！\nこんにちは！\nようこそ React の世界へ。`,
+          live: true,
+          mount: '<App />',
           note: '<Welcome /> を2回書けば、同じ部品が2回表示されます。一度作った部品を何度でも使い回せる――これが React の強みです。',
         },
       ],

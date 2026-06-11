@@ -9,8 +9,12 @@ export interface ReactExample {
   code: string
   /** コードの種類ラベル（例: 'tsx' / 'ts' / 'bash'）。省略時は 'tsx'。 */
   lang?: string
-  /** 画面での見え方や、コンソール出力など（省略可）。 */
+  /** 画面での見え方や、コンソール出力など（省略可）。live のときは使わない。 */
   result?: string
+  /** true なら、コードをブラウザ内で実際に実行してプレビュー表示する。 */
+  live?: boolean
+  /** live のとき、画面に描画する JSX 式（例: '<Counter />'）。code は import を含んでよい（実行時に除去）。 */
+  mount?: string
   /** このコード例のひとこと解説（省略可）。 */
   note?: string
 }

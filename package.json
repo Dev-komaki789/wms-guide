@@ -14,7 +14,8 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.1.1",
-    "sql.js": "^1.14.1"
+    "sql.js": "^1.14.1",
+    "sucrase": "^3.35.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",
