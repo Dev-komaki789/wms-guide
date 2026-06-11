@@ -17,7 +17,9 @@ function loadDb(): Promise<Database> {
   if (!dbPromise) {
     dbPromise = (async () => {
       const SQL = await initSqlJs({ locateFile: () => wasmUrl })
-      const res = await fetch(import.meta.env.BASE_URL + 'wms.sqlite')
+      // ?v= はキャッシュ対策。users 削除前の古い版をブラウザ/CDN が使い続けないよう、
+      // DB の中身を更新したらこの番号を上げる。
+      const res = await fetch(import.meta.env.BASE_URL + 'wms.sqlite?v=2')
       if (!res.ok) throw new Error('wms.sqlite（同梱DB）を読み込めませんでした。')
       const buf = await res.arrayBuffer()
       const db = new SQL.Database(new Uint8Array(buf))
