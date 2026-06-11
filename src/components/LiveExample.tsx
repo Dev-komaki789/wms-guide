@@ -1,5 +1,8 @@
 import {
   Component,
+  createContext,
+  useCallback,
+  useContext,
   useEffect,
   useMemo,
   useReducer,
@@ -45,7 +48,17 @@ class PreviewErrorBoundary extends Component<
 }
 
 // 例題から参照できる React の機能（import を書かずに使えるようにする）。
-const scope = { React, useState, useEffect, useRef, useMemo, useReducer } as const
+const scope = {
+  React,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useReducer,
+  useCallback,
+  useContext,
+  createContext,
+} as const
 
 export default function LiveExample({ code, mount }: { code: string; mount: string }) {
   const [element, setElement] = useState<ReactNode>(null)
