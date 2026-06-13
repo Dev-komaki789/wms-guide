@@ -2,6 +2,24 @@ import type { OrmProblem, OrmQuizSet as QuizSet } from '../data/orm-quiz/types'
 import { wmsSchema } from '../data/orm-quiz/schema'
 import { keywordGlossary } from '../data/orm-quiz/glossary'
 
+// 各問の SQL から、登場するテーブル名を自動で拾う（手書き不要・SQL に追従）。
+const KNOWN_TABLES = [
+  ...new Set([
+    ...wmsSchema.map((t) => t.table),
+    'users',
+    'areas',
+    'manufacturers',
+    'customers',
+    'suppliers',
+  ]),
+]
+function tablesFromSql(sql: string): string[] {
+  return KNOWN_TABLES.map((t) => ({ t, idx: sql.search(new RegExp(`\\b${t}\\b`)) }))
+    .filter((x) => x.idx >= 0)
+    .sort((a, b) => a.idx - b.idx)
+    .map((x) => x.t)
+}
+
 // 題材テーブルの早見表（テーブル名・カラム名）。各セットの先頭に折りたたみで表示する。
 function SchemaCheatSheet() {
   return (
@@ -66,6 +84,24 @@ function Problem({ problem, num }: { problem: OrmProblem; num: number }) {
         </span>
       </div>
       <p className="mt-2 leading-relaxed text-[var(--color-head)]">{problem.question}</p>
+
+      {(() => {
+        const tables = tablesFromSql(problem.sql)
+        return tables.length ? (
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-[var(--color-muted)]">
+            <span>使うテーブル：</span>
+            {tables.map((t) => (
+              <span
+                key={t}
+                className="rounded bg-[var(--color-mist)] px-2 py-0.5 font-mono text-[var(--color-accent)]"
+              >
+                {t}
+              </span>
+            ))}
+            <span className="text-[var(--color-muted)]">（カラムは上部の早見表を参照）</span>
+          </div>
+        ) : null
+      })()}
 
       {problem.hint ? (
         <p className="mt-2 text-sm text-[var(--color-muted)]">💡 ヒント：{problem.hint}</p>
