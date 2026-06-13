@@ -32,7 +32,7 @@ export default function EcChapterPage() {
         <EcCodeChapter chapter={chapter} />
       </div>
 
-      <nav className="mt-12 flex gap-3 border-t border-[var(--color-line)] pt-5">
+      <nav className="mt-12 flex flex-col gap-3 border-t border-[var(--color-line)] pt-5 sm:flex-row">
         {prev ? (
           <Link
             to={`/ec/${prev.id}`}

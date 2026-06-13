@@ -95,7 +95,10 @@ function SidebarNav() {
 }
 
 export default function App() {
-  const [open, setOpen] = useState(true)
+  // 画面が広いとき（lg以上）は最初から開く。狭いときは閉じておく（モバイルで本文を隠さない）。
+  const [open, setOpen] = useState(() =>
+    typeof window === 'undefined' ? true : window.innerWidth >= 1024,
+  )
 
   // 本番（静的ビルド）では学習コンテンツ（ORM 大全・React 大全・技術メモ）のみ公開する
   // （上部ナビのみ・サイドバー無し）。SQL↔ORM ツールと同梱DBは開発時専用で本番には出さない。
@@ -109,11 +112,11 @@ export default function App() {
       ].join(' ')
     return (
       <div className="min-h-screen">
-        <header className="sticky top-0 z-20 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-[var(--color-line)] bg-[var(--color-paper)] px-5 py-3">
-          <NavLink to="/orm" className="text-base font-bold text-[var(--color-head)]">
+        <header className="sticky top-0 z-20 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-[var(--color-line)] bg-[var(--color-paper)] px-4 py-3 sm:px-5">
+          <NavLink to="/orm" className="shrink-0 text-base font-bold text-[var(--color-head)]">
             WMS Guide
           </NavLink>
-          <nav className="flex items-center gap-1">
+          <nav className="flex flex-wrap items-center gap-1">
             <NavLink to="/orm" className={prodNavClass}>
               Django ORM 大全
             </NavLink>
@@ -131,7 +134,7 @@ export default function App() {
             </NavLink>
           </nav>
         </header>
-        <main className="px-5 py-8 lg:px-10">
+        <main className="px-4 py-8 sm:px-5 lg:px-10">
           <Outlet />
         </main>
       </div>
@@ -172,15 +175,29 @@ export default function App() {
       </header>
 
       <div className="flex">
-        {/* 左サイドバー（open のときだけ表示）。画面に追従(sticky)して縦スクロール */}
+        {/* 左サイドバー。狭い画面ではオーバーレイ（fixed）、lg 以上では画面に追従(sticky)して並ぶ。 */}
         {open ? (
-          <aside className="sticky top-[57px] h-[calc(100vh-57px)] w-64 shrink-0 overflow-y-auto border-r border-[var(--color-line)] bg-[var(--color-paper)]">
-            <SidebarNav />
-          </aside>
+          <>
+            {/* モバイル用の背景。タップで閉じる。 */}
+            <button
+              type="button"
+              aria-label="サイドバーを閉じる"
+              onClick={() => setOpen(false)}
+              className="fixed inset-x-0 top-[57px] bottom-0 z-30 bg-black/30 lg:hidden"
+            />
+            <aside
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) setOpen(false)
+              }}
+              className="fixed top-[57px] left-0 z-40 h-[calc(100vh-57px)] w-64 shrink-0 overflow-y-auto border-r border-[var(--color-line)] bg-[var(--color-paper)] lg:sticky lg:z-auto"
+            >
+              <SidebarNav />
+            </aside>
+          </>
         ) : null}
 
         {/* メイン。サイドバーを隠すと全幅に広がる */}
-        <main className="min-w-0 flex-1 px-5 py-8 lg:px-10">
+        <main className="min-w-0 flex-1 px-4 py-8 sm:px-5 lg:px-10">
           <Outlet />
         </main>
       </div>
