@@ -144,12 +144,12 @@ export const set04Aggregation: OrmQuizSet = {
       points: ['条件つき集計', 'filter=Q', 'FILTER'],
     },
     {
-      question: '各ピッキングリストについて、明細の数量（items の quantity）の合計を「total_qty」として付けてください。関連先の数値を合計します。',
-      hint: 'annotate(Sum("items__quantity"))。',
-      orm: `from django.db.models import Sum\n\nPickingList.objects.annotate(\n  total_qty=Sum('items__quantity')\n)`,
-      sql: `SELECT picking_lists.*,\n       SUM(picking_list_items.quantity) AS total_qty\nFROM picking_lists\nLEFT JOIN picking_list_items\n  ON picking_list_items.picking_list_id = picking_lists.id\nGROUP BY picking_lists.id;`,
+      question: '各ピッキングリストについて、明細の指示数量（items の quantity_requested）の合計を「total_qty」として付けてください。関連先の数値を合計します。',
+      hint: 'annotate(Sum("items__quantity_requested"))。',
+      orm: `from django.db.models import Sum\n\nPickingList.objects.annotate(\n  total_qty=Sum('items__quantity_requested')\n)`,
+      sql: `SELECT picking_lists.*,\n       SUM(picking_list_items.quantity_requested) AS total_qty\nFROM picking_lists\nLEFT JOIN picking_list_items\n  ON picking_list_items.picking_list_id = picking_lists.id\nGROUP BY picking_lists.id;`,
       explanation: [
-        'annotate(total_qty=Sum(\'items__quantity\')) は「各リストに紐づく明細の quantity をすべて足した値」を計算して付けます。__ で関連先の列を集計できます。',
+        'annotate(total_qty=Sum(\'items__quantity_requested\')) は「各リストに紐づく明細の指示数量をすべて足した値」を計算して付けます。__ で関連先の列を集計できます。',
         '「リストごとのピッキング総数」のように、子テーブルの数値を親ごとに合計したいときの形です。明細が無いリストは（LEFT JOIN なので）合計が NULL になり得るので、必要なら Coalesce で 0 にします。',
       ],
       points: ['annotate', 'Sum（関連 __）'],

@@ -1,4 +1,45 @@
 import type { OrmProblem, OrmQuizSet as QuizSet } from '../data/orm-quiz/types'
+import { wmsSchema } from '../data/orm-quiz/schema'
+import { keywordGlossary } from '../data/orm-quiz/glossary'
+
+// 題材テーブルの早見表（テーブル名・カラム名）。各セットの先頭に折りたたみで表示する。
+function SchemaCheatSheet() {
+  return (
+    <details className="group mt-5 rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)]">
+      <summary className="flex cursor-pointer select-none items-center gap-2 px-4 py-3 text-sm font-semibold text-[var(--color-head)] marker:content-['']">
+        <span className="inline-block text-[var(--color-accent)] transition-transform group-open:rotate-90">
+          ▸
+        </span>
+        登場するテーブル・カラム早見表（WMS）
+      </summary>
+      <div className="space-y-3 border-t border-[var(--color-line)] px-4 py-3">
+        <p className="text-xs text-[var(--color-muted)]">
+          問題で使う主なテーブルです。左がテーブル名（SQL）／カッコ内が ORM のモデル名。「→」は別テーブルへのつながり（FK）。
+        </p>
+        {wmsSchema.map((t) => (
+          <div key={t.table} className="text-sm">
+            <div className="font-mono font-semibold text-[var(--color-accent)]">
+              {t.table}
+              <span className="ml-2 font-sans text-xs font-normal text-[var(--color-muted)]">
+                {t.model}
+              </span>
+            </div>
+            <div className="mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5">
+              {t.columns.map((c) => (
+                <span key={c.name} className="font-mono text-xs text-[var(--color-ink)]">
+                  {c.name}
+                  {c.note ? (
+                    <span className="font-sans text-[var(--color-muted)]">（{c.note}）</span>
+                  ) : null}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </details>
+  )
+}
 
 // 「Django ORM 問題集」の1セットを描画する。
 // 各問は 問題文 → ヒント → ［答えを見る］で開く（ORM｜SQL の2カラム ＋ 解説）。
@@ -51,15 +92,25 @@ function Problem({ problem, num }: { problem: OrmProblem; num: number }) {
             </p>
           ))}
           {problem.points?.length ? (
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {problem.points.map((pt) => (
-                <span
-                  key={pt}
-                  className="rounded-full bg-[var(--color-paper)] px-2 py-0.5 font-mono text-xs text-[var(--color-accent)]"
-                >
-                  {pt}
-                </span>
-              ))}
+            <div className="mt-3 border-t border-[var(--color-line)] pt-2">
+              <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
+                キーワード
+              </div>
+              <dl className="space-y-1">
+                {problem.points.map((pt) => {
+                  const meaning = keywordGlossary[pt]
+                  return (
+                    <div key={pt} className="flex flex-wrap items-baseline gap-x-2 text-sm">
+                      <dt className="shrink-0 rounded bg-[var(--color-paper)] px-2 py-0.5 font-mono text-xs font-semibold text-[var(--color-accent)]">
+                        {pt}
+                      </dt>
+                      {meaning ? (
+                        <dd className="text-[var(--color-ink)]">{meaning}</dd>
+                      ) : null}
+                    </div>
+                  )
+                })}
+              </dl>
             </div>
           ) : null}
         </div>
@@ -93,6 +144,8 @@ export default function OrmQuizSet({ set }: { set: QuizSet }) {
           ))}
         </div>
       ) : null}
+
+      <SchemaCheatSheet />
 
       <div className="mt-8 space-y-5">
         {set.problems.map((p, i) => (
