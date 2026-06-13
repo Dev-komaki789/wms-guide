@@ -3,6 +3,8 @@ import { set01Basics } from './set01-basics'
 import { set02LogicRelations } from './set02-logic-relations'
 import { set03RelationsNplus1 } from './set03-relations-nplus1'
 import { set04Aggregation } from './set04-aggregation'
+import { set05Advanced } from './set05-advanced'
+import { set06Writing } from './set06-writing'
 
 // 「Django ORM 問題集」の登録。執筆済みをここに並べると目次（/orm-quiz）に出る。
 export const ormQuizSets: OrmQuizSet[] = [
@@ -10,6 +12,8 @@ export const ormQuizSets: OrmQuizSet[] = [
   set02LogicRelations,
   set03RelationsNplus1,
   set04Aggregation,
+  set05Advanced,
+  set06Writing,
 ]
 
 // 全体の予定目次（未執筆は「準備中」表示）。
@@ -22,8 +26,8 @@ export const ormQuizOutline: OrmQuizOutlineEntry[] = [
   { num: 2, title: '論理と関連をまたぐ ― Q / exclude / __ / in / F' },
   { num: 3, title: 'リレーションと N+1 ― select_related / prefetch_related' },
   { num: 4, title: '集計 ― aggregate / annotate / Sum / Count' },
-  { num: 5, title: '高度なクエリ ― Subquery / Case・When / 日付集計' },
-  { num: 6, title: '書き込みとトランザクション ― update / bulk / atomic' },
+  { num: 5, title: '高度なクエリ ― Subquery / Case・When / 日付集計 / Window' },
+  { num: 6, title: '書き込みとトランザクション ― create / update / bulk / atomic' },
 ]
 
 export function getQuizSet(id: string): OrmQuizSet | undefined {
