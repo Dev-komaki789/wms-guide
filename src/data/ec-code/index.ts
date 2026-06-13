@@ -5,6 +5,10 @@ import { ch03Http } from './ch03-http'
 import { ch04Auth } from './ch04-auth'
 import { ch05Cart } from './ch05-cart'
 import { ch06Products } from './ch06-products'
+import { ch07Components } from './ch07-components'
+import { ch08Detail } from './ch08-detail'
+import { ch09OrderFlow } from './ch09-order-flow'
+import { ch10Types } from './ch10-types'
 
 // 「EC コード解説」の登録。執筆済みをここに並べると目次（/ec）に出る。
 export const ecChapters: EcChapter[] = [
@@ -14,6 +18,10 @@ export const ecChapters: EcChapter[] = [
   ch04Auth,
   ch05Cart,
   ch06Products,
+  ch07Components,
+  ch08Detail,
+  ch09OrderFlow,
+  ch10Types,
 ]
 
 // 全体の予定目次（未執筆は「準備中」表示）。
