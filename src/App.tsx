@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { screens } from './data/screens'
 import { ormChapterList } from './data/orm-book'
+import { ormQuizListNav } from './data/orm-quiz'
 import { reactChapterList } from './data/react-book'
 import { ecChapterListNav } from './data/ec-code'
 import { techNoteList } from './data/tech-notes'
@@ -39,6 +40,16 @@ function SidebarNav() {
       {ormChapterList.map((c) => (
         <NavLink key={c.id} to={`/orm/${c.id}`} className={navLinkClass}>
           第{c.num}章 {c.title}
+        </NavLink>
+      ))}
+
+      <div className={groupLabelClass}>Django ORM 問題集</div>
+      <NavLink to="/orm-quiz" className={navLinkClass} end>
+        目次
+      </NavLink>
+      {ormQuizListNav.map((s) => (
+        <NavLink key={s.id} to={`/orm-quiz/${s.id}`} className={navLinkClass}>
+          セット{s.num} {s.title}
         </NavLink>
       ))}
 
@@ -105,6 +116,9 @@ export default function App() {
           <nav className="flex items-center gap-1">
             <NavLink to="/orm" className={prodNavClass}>
               Django ORM 大全
+            </NavLink>
+            <NavLink to="/orm-quiz" className={prodNavClass}>
+              ORM 問題集
             </NavLink>
             <NavLink to="/react" className={prodNavClass}>
               React 大全
