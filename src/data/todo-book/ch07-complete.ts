@@ -20,7 +20,7 @@ export const ch07Complete: TodoChapter = {
         'そして画面の2つのリストは、todos を done で絞り込んで作り出します。未完了リスト＝done が false のもの、完了リスト＝done が true のもの。元データは1つ、表示は2つ、です。',
       ],
       mermaid: `flowchart LR
-  T["todos（1つの配列）<br/>{id, text, done} の集まり"] -->|"done が false"| I["未完了リスト"]
+  T["todos（1つの配列・各件に done を持つ）"] -->|"done が false"| I["未完了リスト"]
   T -->|"done が true"| C["完了リスト"]`,
     },
     {

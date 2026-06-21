@@ -126,13 +126,12 @@ const createInCompleteTodo = (todo) => {
         '素の JS は「どう画面を変えるか（手順）」を細かく書きます。これを命令的（めいれいてき）と言います。一方 React は「いまデータがこうなら、画面はこう見える」という対応だけを書きます。これを宣言的（せんげんてき）と言います。',
         'TODO アプリで言えば、React では「タスクの配列（データ）」さえ持っておけば、画面はそれを映した鏡になります。タスクを1件足したいときは、DOM をいじるのではなく「配列に1件足す」だけ。あとは React が画面を描き直してくれます。',
       ],
-      mermaid: `flowchart LR
-  subgraph PlainJS["素の JS（命令的）"]
-    A1["ボタンが押された"] --> A2["li を作る"] --> A3["button を作る"] --> A4["appendChild で並べる"]
-  end
-  subgraph React["React（宣言的）"]
-    B1["データ（配列）を変える"] --> B2["React が画面を<br/>自動で描き直す"]
-  end`,
+      mermaid: `flowchart TD
+  A0["素の JS（命令的）"] --> A1["ボタンが押された"]
+  A1 --> A2["要素を作る（createElement）"]
+  A2 --> A3["appendChild で並べる"]
+  B0["React（宣言的）"] --> B1["データ（配列）を変える"]
+  B1 --> B2["React が画面を自動で描き直す"]`,
       table: {
         headers: ['観点', '素の JavaScript', 'React'],
         rows: [
