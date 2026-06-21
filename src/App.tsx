@@ -4,6 +4,7 @@ import { screens } from './data/screens'
 import { ormChapterList } from './data/orm-book'
 import { ormQuizListNav } from './data/orm-quiz'
 import { reactChapterList } from './data/react-book'
+import { todoChapterList } from './data/todo-book'
 import { ecChapterListNav } from './data/ec-code'
 import { techNoteList } from './data/tech-notes'
 
@@ -59,6 +60,16 @@ function SidebarNav() {
       </NavLink>
       {reactChapterList.map((c) => (
         <NavLink key={c.id} to={`/react/${c.id}`} className={navLinkClass}>
+          第{c.num}章 {c.title}
+        </NavLink>
+      ))}
+
+      <div className={groupLabelClass}>ToDo アプリ実践</div>
+      <NavLink to="/todo" className={navLinkClass} end>
+        目次
+      </NavLink>
+      {todoChapterList.map((c) => (
+        <NavLink key={c.id} to={`/todo/${c.id}`} className={navLinkClass}>
           第{c.num}章 {c.title}
         </NavLink>
       ))}
@@ -125,6 +136,9 @@ export default function App() {
             </NavLink>
             <NavLink to="/react" className={prodNavClass}>
               React 大全
+            </NavLink>
+            <NavLink to="/todo" className={prodNavClass}>
+              ToDo アプリ実践
             </NavLink>
             <NavLink to="/ec" className={prodNavClass}>
               EC コード解説

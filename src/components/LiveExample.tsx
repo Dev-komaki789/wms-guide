@@ -71,8 +71,12 @@ export default function LiveExample({ code, mount }: { code: string; mount: stri
     async function run() {
       try {
         const { transform } = await import('sucrase')
-        // import 文は実行できないので取り除く（表示用コードには残してよい）。
-        const cleaned = code.replace(/^\s*import\s.+$/gm, '')
+        // import / export 文は new Function の中では実行できないので取り除く
+        // （表示用コードには残してよい。export default Foo → Foo のように、宣言の中身だけ残す）。
+        const cleaned = code
+          .replace(/^\s*import\s.+$/gm, '')
+          .replace(/^\s*export\s+default\s+/gm, '')
+          .replace(/^\s*export\s+/gm, '')
         // 定義 + 「mount の JSX を返す」を1つのプログラムにまとめて変換。
         const program = `${cleaned}\n;return (${mount});`
         const transformed = transform(program, {

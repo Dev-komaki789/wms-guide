@@ -20,6 +20,9 @@ const TechNotePage = lazy(() => import('./pages/TechNotePage.tsx'))
 // React 大全（章ページは Mermaid を使うので遅延読み込み）。本番でも公開する。
 const ReactBookPage = lazy(() => import('./pages/ReactBookPage.tsx'))
 const ReactChapterPage = lazy(() => import('./pages/ReactChapterPage.tsx'))
+// ToDo アプリ実践（章ページは Mermaid・ライブプレビューを使うので遅延読み込み）。本番でも公開する。
+const TodoBookPage = lazy(() => import('./pages/TodoBookPage.tsx'))
+const TodoChapterPage = lazy(() => import('./pages/TodoChapterPage.tsx'))
 // EC コード解説（Mermaid を使うので遅延読み込み）。本番でも公開する。
 const EcCodePage = lazy(() => import('./pages/EcCodePage.tsx'))
 const EcChapterPage = lazy(() => import('./pages/EcChapterPage.tsx'))
@@ -50,6 +53,8 @@ const router = createHashRouter([
       { path: 'tech/:noteId', element: lazyEl(<TechNotePage />) },
       { path: 'react', element: lazyEl(<ReactBookPage />) },
       { path: 'react/:chapterId', element: lazyEl(<ReactChapterPage />) },
+      { path: 'todo', element: lazyEl(<TodoBookPage />) },
+      { path: 'todo/:chapterId', element: lazyEl(<TodoChapterPage />) },
       { path: 'ec', element: lazyEl(<EcCodePage />) },
       { path: 'ec/:chapterId', element: lazyEl(<EcChapterPage />) },
       { path: 'orm-quiz', element: lazyEl(<OrmQuizPage />) },

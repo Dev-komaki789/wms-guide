@@ -106,3 +106,67 @@ body {
 .live-preview .title {
   font-weight: 700;
 }
+
+/* 「ToDo アプリ実践」編のライブプレビュー。元の styles.css（teal 系）の見た目を
+   プレビュー枠の中だけで再現する。教材コード側は className を書くだけでよい。 */
+.live-preview .todo-app {
+  max-width: 420px;
+}
+.live-preview .todo-app .input-area {
+  background-color: #c6e5df;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border-radius: 6px 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.live-preview .todo-app input {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+}
+.live-preview .todo-app button {
+  border: none;
+  border-radius: 8px;
+  padding: 4px 14px;
+  margin: 0 2px;
+  background: #fff;
+  color: #4b5158;
+  cursor: pointer;
+}
+.live-preview .todo-app button:hover {
+  background-color: #79a8a9;
+  color: #fff;
+}
+.live-preview .todo-app .incomplete-area,
+.live-preview .todo-app .complete-area {
+  border: 2px solid #aacfd0;
+  min-height: 90px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+.live-preview .todo-app .complete-area {
+  background-color: #c9dede;
+}
+.live-preview .todo-app .title {
+  text-align: center;
+  margin: 0 0 4px;
+  font-weight: bold;
+}
+.live-preview .todo-app ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.live-preview .todo-app .list-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.live-preview .todo-app .todo-item {
+  flex: 1;
+  margin: 6px;
+}
